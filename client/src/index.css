@@ -1,13 +1,63 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary hover:bg-primary-dark text-white focus:ring-primary;
+  }
+
+  .btn-secondary {
+    @apply btn bg-secondary hover:bg-secondary-dark text-white focus:ring-secondary;
+  }
+
+  .input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-800 dark:border-gray-700;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md;
+  }
+
+  .message {
+    @apply p-3 rounded-lg max-w-[80%] break-words;
+  }
+
+  .message-sent {
+    @apply message bg-primary text-white ml-auto;
+  }
+
+  .message-received {
+    @apply message bg-gray-200 dark:bg-gray-700;
+  }
+
+  .avatar {
+    @apply w-10 h-10 rounded-full object-cover;
+  }
+
+  .badge {
+    @apply px-2 py-1 text-xs font-semibold rounded-full;
+  }
+
+  .badge-online {
+    @apply badge bg-green-500 text-white;
+  }
+
+  .badge-away {
+    @apply badge bg-yellow-500 text-white;
+  }
+
+  .badge-offline {
+    @apply badge bg-gray-500 text-white;
+  }
 }

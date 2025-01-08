@@ -17,8 +17,11 @@ const upload = multer({
 });
 
 // Initialize GridFS bucket
-const bucket = new GridFSBucket(mongoose.connection.db, {
-  bucketName: 'mediaFiles'
+let bucket;
+mongoose.connection.once('open', () => {
+  bucket = new GridFSBucket(mongoose.connection.db, {
+    bucketName: 'mediaFiles'
+  });
 });
 
 // Send a text message
@@ -79,6 +82,10 @@ router.delete('/:messageId', async (req, res) => {
 
 // Upload and send voice message
 router.post('/voice', upload.single('audio'), async (req, res) => {
+  if (!bucket) {
+    return res.status(500).json({ message: 'File storage not initialized' });
+  }
+
   try {
     const { sender, chatGroup, duration } = req.body;
     
@@ -118,6 +125,10 @@ router.post('/voice', upload.single('audio'), async (req, res) => {
 
 // Upload and send media (images, videos)
 router.post('/media', upload.single('media'), async (req, res) => {
+  if (!bucket) {
+    return res.status(500).json({ message: 'File storage not initialized' });
+  }
+
   try {
     const { sender, chatGroup, fileType } = req.body;
     
@@ -157,6 +168,10 @@ router.post('/media', upload.single('media'), async (req, res) => {
 
 // Get media file
 router.get('/media/:fileId', async (req, res) => {
+  if (!bucket) {
+    return res.status(500).json({ message: 'File storage not initialized' });
+  }
+
   try {
     const message = await Message.findById(req.params.fileId);
     if (!message || message.isDeleted) {
